@@ -1,0 +1,110 @@
+import random
+
+class Player:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+    def __repr__(self):
+        return "Hi {name}, your current score is {score}.".format(name=self.name, score=self.score)
+    
+scoreboard = []
+def view_scoreboard():
+    if not scoreboard:
+        print("The scoreboard is empty.")
+    else:
+        print("Scoreboard:")
+        for player in scoreboard:
+            print(player)
+
+def add_to_scoreboard(player):
+    scoreboard.append(player)
+
+def view_scoreboard():
+    try:
+        with open("scores.txt", "r") as file:
+            scoreboard = file.readlines()
+        
+        if not scoreboard:
+            print("The scoreboard is empty.")
+        else:
+            print("Scoreboard:")
+            for line in scoreboard:
+                print(line.strip())  # Strip removes newline characters
+            
+    except FileNotFoundError:
+        print("The scoreboard file was not found.")
+    except Exception as e:
+        print(f"An error occurred while viewing the scoreboard: {str(e)}")
+
+
+def intro():
+    user_input = input("Hello, this is a number's game. Would you like to play? (Y or N)\n")
+    if user_input.lower() == "y":
+        player_name = input("Perfect! Can I get your name?\n")
+        player = Player(player_name, 0)
+        num_game(player)
+    else:
+        print("That's fine too. Have a good day!")
+
+def num_game(player):
+    random_number = random.randint(1, 100)
+    print(random_number) #Testing the scoring function works
+    tries = 5
+
+    while tries > 0:
+        guess = input("Well {player_name}, I have a number between 1 and 100, what is it? You have {tries} guesses left.\n".format(player_name=player.name, tries=tries))
+        
+        try:
+            guess = int(guess)
+        except ValueError:
+            print("Invalid input. Please enter a number")
+            continue
+        
+        if guess < 1 or guess > 100:
+            print("That's out of range, try again.")
+            continue
+
+        if guess == random_number:
+            player.score += 1
+            guess_more = input("You're right! Point for you. Would you like to keep going? (Y or N)\n")
+            if guess_more.lower() == "n":
+                add_to_scoreboard(player)
+                save_scores(player)
+                print("Got it! Viewing scoreboard...")
+                print(scoreboard)
+            else:
+                print("Perfect! Restarting...")
+                random_number = random.randint(1, 100)
+                print(random_number)
+                tries = 5
+                continue
+
+        elif guess < random_number:
+            tries -= 1
+            print("Too Low! Try again. You have {tries} guess(es) left.".format(tries=tries))
+        elif guess > random_number:
+            tries -= 1
+            print("Too High! Try again. You have {tries} guess(es) left.".format(tries=tries))
+
+    if tries == 0:
+        user_input = input("Too bad... You've used all 5 tries. The correct number was {number}\nWould you like to try again or view the scoreboard before you leave? (Y or N)\n".format(number=random_number))
+        if user_input.lower() == "y":
+            print("Perfect! Restarting...")
+            num_game(player)
+        elif user_input.lower() == "n":
+            add_to_scoreboard(player)
+            save_scores(player)
+            print("Got it! Viewing scoreboard...")
+
+
+def save_scores(player): #seperate file for storing scores
+    try:
+        with open("scores.txt", "a") as file:
+            file.write(f"Player: {player.name}, Score: {player.score}\n")
+    except Exception as e:
+        print(f"An error occurred while saving the scores: {str(e)}")
+
+
+
+intro()
