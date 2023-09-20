@@ -6,7 +6,7 @@ class Player:
         self.score = score
 
     def __repr__(self):
-        return "Player {name}, your current score is {score}.  Exiting...".format(name=self.name, score=self.score)
+        return "Player {name}, your final score is {score}.  Exiting...".format(name=self.name, score=self.score)
     
 scoreboard = []
 def view_scoreboard():
