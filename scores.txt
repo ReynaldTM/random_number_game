@@ -3,3 +3,8 @@ Player: red, Score: 1
 Player: red, Score: 0
 Player: red, Score: 1
 Player: 1, Score: 5
+Player: Yorts, Score: 2
+Player: Yorts, Score: 1
+Player: Yorts, Score: 1
+Player: Yorts, Score: 1
+Player: Yorts, Score: 1

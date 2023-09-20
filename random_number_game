@@ -6,7 +6,8 @@ class Player:
         self.score = score
 
     def __repr__(self):
-        return "Player {name}, your final score is {score}.  Exiting...".format(name=self.name, score=self.score)
+        return ("Player {name}, your final score is {score}.  Exiting...").format(name=self.name, score=self.score)
+
     
 scoreboard = []
 def view_scoreboard():
@@ -67,7 +68,7 @@ def num_game(player):
 
         if guess == random_number: 
             player.score += 1
-            guess_more = input("You're right! Point for you. Would you like to keep going? (Y or N)\n")
+            guess_more = input("You're right! Point for you. Would you like to keep going or view your score before you leave? (Y or N)\n")
             if guess_more.lower() == "n":
                 add_to_scoreboard(player)
                 save_scores(player)
@@ -89,7 +90,7 @@ def num_game(player):
             print("Too High! Try again. You have {tries} guess(es) left.".format(tries=tries))
 
     if tries == 0:
-        user_input = input("Too bad... You've used all 10 tries. The correct number was {number}\nWould you like to try again or view the scoreboard before you leave? (Y or N)\n".format(number=random_number))
+        user_input = input("Too bad... You've used all 10 tries. The correct number was {number}\nWould you like to try again or view your score before you leave? (Y or N)\n".format(number=random_number))
         if user_input.lower() == "y":
             print("Perfect! Restarting...")
             num_game(player)
