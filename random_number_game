@@ -1,12 +1,12 @@
 import random
 
-class Player: # Maybe Change
+class Player:
     def __init__(self, name, score):
         self.name = name
         self.score = score
 
     def __repr__(self):
-        return "Hi {name}, your current score is {score}.".format(name=self.name, score=self.score)
+        return "Player {name}, your current score is {score}.  Exiting...".format(name=self.name, score=self.score)
     
 scoreboard = []
 def view_scoreboard():
@@ -50,7 +50,7 @@ def intro():
 def num_game(player):
     random_number = random.randint(1, 100)
     #print(random_number) #Testing the scoring function works
-    tries = 5
+    tries = 10
 
     while tries > 0:
         guess = input("Well {player_name}, I have a number between 1 and 100, what is it? You have {tries} guesses left.\n".format(player_name=player.name, tries=tries))
@@ -65,7 +65,7 @@ def num_game(player):
             print("That's out of range, try again.")
             continue
 
-        if guess == random_number: #Must change 
+        if guess == random_number: 
             player.score += 1
             guess_more = input("You're right! Point for you. Would you like to keep going? (Y or N)\n")
             if guess_more.lower() == "n":
@@ -73,11 +73,12 @@ def num_game(player):
                 save_scores(player)
                 print("Got it! Viewing scoreboard...")
                 print(scoreboard)
+                break
             else:
                 print("Perfect! Restarting...")
                 random_number = random.randint(1, 100)
                 print(random_number)
-                tries = 5
+                tries = 10
                 continue
 
         elif guess < random_number:
@@ -88,7 +89,7 @@ def num_game(player):
             print("Too High! Try again. You have {tries} guess(es) left.".format(tries=tries))
 
     if tries == 0:
-        user_input = input("Too bad... You've used all 5 tries. The correct number was {number}\nWould you like to try again or view the scoreboard before you leave? (Y or N)\n".format(number=random_number))
+        user_input = input("Too bad... You've used all 10 tries. The correct number was {number}\nWould you like to try again or view the scoreboard before you leave? (Y or N)\n".format(number=random_number))
         if user_input.lower() == "y":
             print("Perfect! Restarting...")
             num_game(player)
@@ -96,9 +97,10 @@ def num_game(player):
             add_to_scoreboard(player)
             save_scores(player)
             print("Got it! Viewing scoreboard...")
+            print(scoreboard)
 
 
-def save_scores(player): #seperate file for storing scores, should probably change.
+def save_scores(player): #seperate file for storing scores.
     try:
         with open("scores.txt", "a") as file:
             file.write(f"Player: {player.name}, Score: {player.score}\n")
